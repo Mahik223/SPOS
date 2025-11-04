@@ -1,0 +1,226 @@
+import java.util.*;
+
+public class Scheduling {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("\n=== CPU Scheduling Algorithms ===");
+            System.out.println("1. First Come First Serve (FCFS)");
+            System.out.println("2. Shortest Job First (SJF)");
+            System.out.println("3. Priority Scheduling");
+            System.out.println("4. Round Robin");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = sc.nextInt();
+
+            switch (choice) {
+                case 1: fcfs(); break;
+                case 2: sjf(); break;
+                case 3: priority(); break;
+                case 4: roundRobin(); break;
+                case 5: System.out.println("Exiting..."); return;
+                default: System.out.println("Invalid choice!");
+            }
+        }
+    }
+
+    // ---------------- FCFS ----------------
+    public static void fcfs() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of processes: ");
+        int n = sc.nextInt();
+
+        int[] at = new int[n];
+        int[] bt = new int[n];
+        int[] ct = new int[n];
+        int[] tat = new int[n];
+        int[] wt = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter Arrival Time for P" + (i + 1) + ": ");
+            at[i] = sc.nextInt();
+            System.out.print("Enter Burst Time for P" + (i + 1) + ": ");
+            bt[i] = sc.nextInt();
+        }
+
+        float totalWT = 0, totalTAT = 0;
+        ct[0] = at[0] + bt[0];
+        for (int i = 1; i < n; i++) {
+            ct[i] = Math.max(ct[i - 1], at[i]) + bt[i];
+        }
+
+        for (int i = 0; i < n; i++) {
+            tat[i] = ct[i] - at[i];
+            wt[i] = tat[i] - bt[i];
+            totalWT += wt[i];
+            totalTAT += tat[i];
+        }
+
+        System.out.println("\nPID\tAT\tBT\tCT\tTAT\tWT");
+        for (int i = 0; i < n; i++) {
+            System.out.println((i + 1) + "\t" + at[i] + "\t" + bt[i] + "\t" + ct[i] + "\t" + tat[i] + "\t" + wt[i]);
+        }
+
+        System.out.println("\nAverage Waiting Time: " + totalWT / n);
+        System.out.println("Average Turnaround Time: " + totalTAT / n);
+    }
+
+    // ---------------- SJF ----------------
+    public static void sjf() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of processes: ");
+        int n = sc.nextInt();
+
+        int[] at = new int[n];
+        int[] bt = new int[n];
+        boolean[] done = new boolean[n];
+        int[] tat = new int[n];
+        int[] wt = new int[n];
+        int[] ct = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter Arrival Time for P" + (i + 1) + ": ");
+            at[i] = sc.nextInt();
+            System.out.print("Enter Burst Time for P" + (i + 1) + ": ");
+            bt[i] = sc.nextInt();
+        }
+
+        int time = 0, completed = 0;
+        float totalWT = 0, totalTAT = 0;
+
+        while (completed < n) {
+            int idx = -1, min = Integer.MAX_VALUE;
+            for (int i = 0; i < n; i++) {
+                if (!done[i] && at[i] <= time && bt[i] < min) {
+                    min = bt[i];
+                    idx = i;
+                }
+            }
+            if (idx == -1) {
+                time++;
+            } else {
+                time += bt[idx];
+                ct[idx] = time;
+                tat[idx] = ct[idx] - at[idx];
+                wt[idx] = tat[idx] - bt[idx];
+                done[idx] = true;
+                completed++;
+                totalWT += wt[idx];
+                totalTAT += tat[idx];
+            }
+        }
+
+        System.out.println("\nPID\tAT\tBT\tCT\tTAT\tWT");
+        for (int i = 0; i < n; i++) {
+            System.out.println((i + 1) + "\t" + at[i] + "\t" + bt[i] + "\t" + ct[i] + "\t" + tat[i] + "\t" + wt[i]);
+        }
+        System.out.println("\nAverage Waiting Time: " + totalWT / n);
+        System.out.println("Average Turnaround Time: " + totalTAT / n);
+    }
+
+    // ---------------- Priority ----------------
+    public static void priority() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of processes: ");
+        int n = sc.nextInt();
+
+        int[] bt = new int[n];
+        int[] pr = new int[n];
+        int[] wt = new int[n];
+        int[] tat = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter Burst Time for P" + (i + 1) + ": ");
+            bt[i] = sc.nextInt();
+            System.out.print("Enter Priority for P" + (i + 1) + ": ");
+            pr[i] = sc.nextInt();
+        }
+
+        // Sort by priority
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = i + 1; j < n; j++) {
+                if (pr[i] > pr[j]) {
+                    int temp = pr[i]; pr[i] = pr[j]; pr[j] = temp;
+                    temp = bt[i]; bt[i] = bt[j]; bt[j] = temp;
+                }
+            }
+        }
+
+        wt[0] = 0;
+        float totalWT = 0, totalTAT = 0;
+        for (int i = 1; i < n; i++) {
+            wt[i] = wt[i - 1] + bt[i - 1];
+        }
+        for (int i = 0; i < n; i++) {
+            tat[i] = wt[i] + bt[i];
+            totalWT += wt[i];
+            totalTAT += tat[i];
+        }
+
+        System.out.println("\nPID\tBT\tPR\tWT\tTAT");
+        for (int i = 0; i < n; i++) {
+            System.out.println((i + 1) + "\t" + bt[i] + "\t" + pr[i] + "\t" + wt[i] + "\t" + tat[i]);
+        }
+
+        System.out.println("\nAverage Waiting Time: " + totalWT / n);
+        System.out.println("Average Turnaround Time: " + totalTAT / n);
+    }
+
+    // ---------------- Round Robin ----------------
+    public static void roundRobin() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter number of processes: ");
+        int n = sc.nextInt();
+
+        int[] bt = new int[n];
+        int[] rt = new int[n];
+        int[] at = new int[n];
+        int[] tat = new int[n];
+        int[] wt = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter Arrival Time for P" + (i + 1) + ": ");
+            at[i] = sc.nextInt();
+            System.out.print("Enter Burst Time for P" + (i + 1) + ": ");
+            bt[i] = sc.nextInt();
+            rt[i] = bt[i];
+        }
+
+        System.out.print("Enter Time Quantum: ");
+        int tq = sc.nextInt();
+
+        int time = 0, remain = n;
+        float totalWT = 0, totalTAT = 0;
+
+        while (remain > 0) {
+            boolean progress = false;
+            for (int i = 0; i < n; i++) {
+                if (rt[i] > 0 && at[i] <= time) {
+                    progress = true;
+                    if (rt[i] > tq) {
+                        time += tq;
+                        rt[i] -= tq;
+                    } else {
+                        time += rt[i];
+                        rt[i] = 0;
+                        tat[i] = time - at[i];
+                        wt[i] = tat[i] - bt[i];
+                        totalWT += wt[i];
+                        totalTAT += tat[i];
+                        remain--;
+                    }
+                }
+            }
+            if (!progress) time++;
+        }
+
+        System.out.println("\nPID\tAT\tBT\tTAT\tWT");
+        for (int i = 0; i < n; i++) {
+            System.out.println((i + 1) + "\t" + at[i] + "\t" + bt[i] + "\t" + tat[i] + "\t" + wt[i]);
+        }
+
+        System.out.println("\nAverage Waiting Time: " + totalWT / n);
+        System.out.println("Average Turnaround Time: " + totalTAT / n);
+    }
+}
