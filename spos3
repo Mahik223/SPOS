@@ -224,3 +224,138 @@ public class Scheduling {
         System.out.println("Average Turnaround Time: " + totalTAT / n);
     }
 }
+
+
+*********************************** T H E O R Y *****************************************
+
+
+ChatGPT said:
+
+Perfect 👍 — that’s a complete Java program that demonstrates four CPU Scheduling Algorithms:
+
+FCFS (First Come First Serve)
+
+SJF (Shortest Job First)
+
+Priority Scheduling
+
+Round Robin
+
+Let’s make it easy to understand 👇
+
+🧩 Simple Explanation
+
+This program allows the user to choose any CPU scheduling algorithm from a menu and then calculates:
+
+Completion Time (CT)
+
+Turnaround Time (TAT)
+
+Waiting Time (WT)
+
+Average Waiting Time
+
+Average Turnaround Time
+
+⚙️ 1. FCFS (First Come First Serve)
+
+The process that arrives first is executed first.
+
+CPU executes in the order of arrival time.
+
+Simple but not efficient when short jobs come after long jobs.
+
+Key Formulas:
+
+CT[i] = max(CT[i-1], AT[i]) + BT[i]
+TAT[i] = CT[i] - AT[i]
+WT[i] = TAT[i] - BT[i]
+
+⚙️ 2. SJF (Shortest Job First)
+
+CPU executes the process with the smallest burst time first.
+
+Non-preemptive version (once started, process runs till completion).
+
+Reduces average waiting time.
+
+⚙️ 3. Priority Scheduling
+
+Each process has a priority number.
+
+The process with highest priority (lowest number) runs first.
+
+If two have same priority → FCFS order used.
+
+⚙️ 4. Round Robin Scheduling
+
+Each process gets equal fixed CPU time (Time Quantum).
+
+If not completed in that time, process goes to the back of the queue.
+
+Ensures fairness — used in time-sharing systems.
+
+🧠 Main Functions
+Function	Purpose
+fcfs()	Implements First Come First Serve
+sjf()	Implements Shortest Job First
+priority()	Implements Priority Scheduling
+roundRobin()	Implements Round Robin Scheduling
+🧾 Program Flow
+
+Display Menu of scheduling algorithms.
+
+Take user choice (1–5).
+
+Based on choice, call corresponding scheduling method.
+
+Accept input:
+
+Arrival time (AT)
+
+Burst time (BT)
+
+Priority or Time Quantum (if needed)
+
+Compute CT, TAT, WT for each process.
+
+Display results and average times.
+
+Repeat until user chooses Exit.
+
+🔄 Flowchart (Text-Based Representation)
+          ┌──────────────────────┐
+          │       START          │
+          └──────────┬───────────┘
+                     │
+          ┌──────────▼───────────┐
+          │ Display Menu Options │
+          └──────────┬───────────┘
+                     │
+          ┌──────────▼───────────┐
+          │  Read User Choice    │
+          └──────────┬───────────┘
+                     │
+       ┌─────────────┼────────────────┐
+       │             │                │
+ ┌─────▼──────┐ ┌────▼──────┐  ┌─────▼─────┐
+ │   FCFS()   │ │   SJF()   │  │ Priority()│
+ └────────────┘ └───────────┘  └───────────┘
+       │             │                │
+       └─────────────┼────────────────┘
+                     │
+             ┌───────▼────────┐
+             │ RoundRobin()   │
+             └───────┬────────┘
+                     │
+          ┌──────────▼──────────┐
+          │ Display Results     │
+          └──────────┬──────────┘
+                     │
+          ┌──────────▼──────────┐
+          │ Exit or Continue?   │
+          └──────────┬──────────┘
+                     │
+          ┌──────────▼──────────┐
+          │        END          │
+          └─────────────────────┘
