@@ -130,3 +130,88 @@ arr1 = m.toCharArray();  if(op1 != null){
   
   
   	}
+
+
+
+********************************* T H E O R Y *********************************************
+
+
+This program performs Pass 2 of a Two-Pass Assembler.
+
+
+Reads Intermediate Code (IC), Symbol Table, and Literal Table.
+
+Converts them into Machine Code (final output).
+
+** Steps:-
+
+Read each line from the Intermediate Code (IC).
+
+Identify what type of statement it is:
+
+IS (Imperative Statement) → Generate machine code.
+
+DL (Declarative Statement) → Handle constants or memory allocation.
+
+AD (Assembler Directive) → Ignore (no machine code).
+
+Replace symbols (S,n) and literals (L,n) with their actual addresses from symbol/literal tables.
+
+Print the final machine code in the format:
+
+<Opcode> <Register> <Address>
+
+🧾 Example
+
+Input IC:
+
+(IS,04) (RG,01) (L,0)
+
+
+Means → MOVEM R1, ='5'
+
+Output:
+
+04    01    108
+
+🔄 Flowchart (Simple Text Form)
+          ┌───────────────────────┐
+          │        START          │
+          └──────────┬────────────┘
+                     │
+          ┌──────────▼───────────┐
+          │ Read next IC line    │
+          └──────────┬───────────┘
+                     │
+          ┌──────────▼───────────┐
+          │ Check type of code   │
+          └──────────┬───────────┘
+            ┌────────┴────────┐
+            │                 │
+      ┌─────▼───────┐   ┌────▼───────┐
+      │  IS code?   │   │  DL code?  │
+      └─────┬───────┘   └────┬───────┘
+            │                │
+   ┌────────▼────────┐   ┌───▼─────────┐
+   │ Get opcode, reg │   │ Print const │
+   │ & address from  │   │ for DC stmt │
+   │ symbol/literal  │   └─────────────┘
+   └────────┬────────┘
+            │
+   ┌────────▼──────────┐
+   │ Print machine code│
+   └────────┬──────────┘
+            │
+      ┌─────▼───────┐
+      │ More lines? │
+      └─────┬───────┘
+            │Yes
+            │
+            ▼
+       (Repeat loop)
+            │
+            ▼
+         ┌───────┐
+         │  END  │
+         └───────┘
+
