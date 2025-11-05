@@ -20,3 +20,80 @@ else
 digitalWrite(13,HIGH);
 }
 }
+
+
+******************************************************** T  H  E O R Y ***********************************************************
+🧠 Explanation (Line by Line)
+Line	Code	Explanation
+1	void setup()	    This function runs only once when the Arduino starts. Used to set pin modes.
+2	pinMode(2, INPUT);	   Configures digital pin 2 as an input (to read button state).
+3	pinMode(13, OUTPUT);	  Configures digital pin 13 as an output (to control LED).
+4	void loop()	   This function runs continuously after setup().
+5	if (digitalRead(2) == LOW)	   Reads pin 2 — if button is pressed (LOW), run the next statement.
+6	digitalWrite(13, HIGH);	  Turns ON the LED by setting pin 13 HIGH.
+7	else	Otherwise (if button is not pressed)...
+8	digitalWrite(13, LOW);	   Turns OFF the LED.
+
+⚙️**** Working Principle***
+
+The button is connected to pin 2.
+
+The LED is connected to pin 13.
+
+When the button is pressed → Arduino reads LOW on pin 2 → LED turns ON.
+
+When the button is released → Arduino reads HIGH → LED turns OFF.
+
+This loop runs continuously.
+
+
+***flowchart***
+
+
+          ┌────────────────────────┐
+          │        Start           │
+          └──────────┬─────────────┘
+                     │
+          ┌──────────▼───────────┐
+          │  Setup:              │
+          │  pinMode(2, INPUT)   │
+          │  pinMode(13, OUTPUT) │
+          └──────────┬───────────┘
+                     │
+          ┌──────────▼───────────┐
+          │   Read pin 2 (Button)│
+          └──────────┬───────────┘
+                     │
+        ┌────────────▼─────────────┐
+        │ Button pressed (LOW)?    │
+        └────────────┬─────────────┘
+               YES ──┘         └── NO
+                │                   │
+ ┌──────────────▼───────────┐   ┌───▼──────────────┐
+ │ Turn ON LED (pin13 HIGH) │   │ Turn OFF LED     │
+ └──────────────┬───────────┘   │ (pin13 LOW)      │
+                │               └───┬──────────────┘
+                └───────►───────────┘
+                     (Repeat Loop)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
