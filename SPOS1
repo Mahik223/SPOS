@@ -30,7 +30,7 @@ class littab
 }  
   
   
-public Class Pass_2 {  
+public class Pass_2 {  
   
   	public static void main(String[] args) {  
   	  	String ic[][] = {{"(AD,01)",null,"(C,100)"},  
