@@ -1,12 +1,4 @@
 
-                                                                                                   //ASSGNMENT no 2
-                                                                                          // Implement pass 2 of two pass assembler for 
-                                                                                        pseudo machine in java using object oriented 
-                                                                                        features.
-
-
-
-
 
 public class index2 {
 	static class MDT {
@@ -195,3 +187,100 @@ public class index2 {
 		}
 	}
 }
+
+
+
+
+
+************************************* T H E R O Y **********************************
+
+
+It reads a program containing macros and builds two tables:
+
+Table	Full Form	Description
+MNT	Macro Name Table	Stores each macro’s name and where its definition starts in MDT.
+MDT	Macro Definition Table	Stores actual macro body (instructions).
+🔢 Main Steps
+
+Read each line of the assembly code (input[][] array).
+
+If "MACRO" is found:
+
+Store macro name in MNT.
+
+Store its definition lines (till "MEND") in MDT.
+
+Replace parameters like &A, &B, etc., with placeholders #1, #2, etc., inside the MDT.
+
+Continue until all macros are processed.
+
+Finally, print both tables:
+
+MNT (Macro Name Table)
+
+MDT (Macro Definition Table)
+
+🧾 Example Output (Simplified)
+
+MNT Table
+
+Index   Name    MDT_Index
+0       INCR    0
+1       ADDS    4
+2       SUBS    9
+
+
+MDT Table
+
+Index   Definition
+0       INCR &A &B &REG
+1       MOVER #3 #1
+2       ADDS #1 #2
+3       MOVEM #3 #1
+4       MEND
+...
+
+🔄 Flowchart (Simple Text Form)
+            ┌────────────────────┐
+            │       START        │
+            └─────────┬──────────┘
+                      │
+            ┌─────────▼──────────┐
+            │ Read next line     │
+            └─────────┬──────────┘
+                      │
+            ┌─────────▼──────────┐
+            │ Is it "MACRO"?     │
+            └───────┬────────────┘
+                 YES │ NO
+                     │
+       ┌─────────────▼─────────────┐
+       │ Store macro name in MNT   │
+       │ Save starting index in MDT│
+       └─────────────┬─────────────┘
+                     │
+       ┌─────────────▼───────────────┐
+       │ Read next lines until MEND  │
+       │ → Save each line in MDT     │
+       │ → Replace &params with #n   │
+       └─────────────┬───────────────┘
+                     │
+           ┌─────────▼──────────┐
+           │ More lines left?   │
+           └───────┬────────────┘
+                   │Yes
+                   ▼
+            (Repeat Loop)
+                   │
+                   ▼
+            ┌────────────┐
+            │ Print MNT  │
+            │ Print MDT  │
+            └────┬───────┘
+                 ▼
+              ┌──────┐
+              │ END  │
+              └──────┘
+
+
+
